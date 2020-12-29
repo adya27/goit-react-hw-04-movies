@@ -1,16 +1,28 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import styles from "./ButtonGoBack.module.css";
 
 function ButtonGoBack() {
+  const location = useLocation();
   const history = useHistory();
+
+  let isDisabled = !location.state?.from;
   const handleGoBack = () => {
-    history.goBack();
+    if (location.state?.from) {
+      history.push(location.state.from);
+    }
+    return;
   };
 
+  console.log("ButtonGoBack", location);
+
   return (
-    <button className={styles.gradientButton} onClick={handleGoBack}>
+    <button
+      disabled={isDisabled}
+      className={styles.gradientButton}
+      onClick={handleGoBack}
+    >
       Go back
     </button>
   );

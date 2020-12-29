@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch, useLocation } from "react-router-dom";
 
 import styles from "./Styles.module.css";
 import { apiService } from "../../JS/apiService";
@@ -18,6 +18,7 @@ function TrendingTodayList() {
   }, []);
 
   let match = useRouteMatch();
+  const location = useLocation();
 
   return (
     <div>
@@ -25,7 +26,14 @@ function TrendingTodayList() {
         {trendingMovies.map((elem) => {
           return (
             <li className={styles.gradientButton} key={elem.id}>
-              <Link to={`${match.url}${elem.id}`}>{elem.title}</Link>
+              <Link
+                to={{
+                  pathname: `${match.url}${elem.id}`,
+                  state: { from: location },
+                }}
+              >
+                {elem.title}
+              </Link>
             </li>
           );
         })}

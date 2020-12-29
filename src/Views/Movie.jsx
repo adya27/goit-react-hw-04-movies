@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useRouteMatch, Route } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useRouteMatch,
+  Route,
+  useLocation,
+} from "react-router-dom";
 
 import { apiService } from "../JS/apiService";
 import Cast from "./Cast";
@@ -15,6 +21,7 @@ function Movie() {
   const [Movie, setMovie] = useState();
   const { movieId } = useParams();
   let match = useRouteMatch();
+  const location = useLocation();
 
   useEffect(() => {
     ApiService.fetchMovie(movieId)
@@ -68,12 +75,24 @@ function Movie() {
           </div>
           <ul>
             <li className={styles.movieTitle3}>
-              <Link className={styles.movieTitle3} to={`${match.url}/cast`}>
+              <Link
+                className={styles.movieTitle3}
+                to={{
+                  pathname: `${match.url}/cast`,
+                  state: { from: location },
+                }}
+              >
                 Cast
               </Link>
             </li>
             <li className={styles.movieTitle3}>
-              <Link className={styles.movieTitle3} to={`${match.url}/reviews`}>
+              <Link
+                className={styles.movieTitle3}
+                to={{
+                  pathname: `${match.url}/reviews`,
+                  state: { from: location },
+                }}
+              >
                 Reviews
               </Link>
             </li>
